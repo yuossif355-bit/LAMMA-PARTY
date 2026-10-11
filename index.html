@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>مين فينا؟</title>
+<title>مين يعرف مين؟</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Lalezar&display=swap" rel="stylesheet">
 <style>
@@ -146,8 +146,8 @@ h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;text-wrap:balance}
 
 
 <div id="join" hidden>
-  <h1>مين <span>فينا؟</span></h1>
-  <p>لعبة العيلة: كل واحد من تليفونه يصوّت على الباقيين، والنتيجة بتطلع قدام الكل. فيها شات تتكلموا فيه وانتم بتلعبوا.</p>
+  <h1>مين يعرف <span>مين؟</span></h1>
+  <p>لعبة العيلة: كل واحد بيجاوب أسئلة عن نفسه والباقي بيخمّنوا. اللي يخمّن أكتر يكسب، وفيها شات تتكلموا فيه وانتم بتلعبوا.</p>
   <div class="field">
     <label for="name">اسمك</label>
     <input id="name" maxlength="14" autocomplete="off" placeholder="مثلاً: يوسف">
@@ -163,7 +163,7 @@ h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;text-wrap:balance}
 
 <div id="app" hidden>
   <div class="top">
-    <div><h2>مين فينا؟</h2><div class="code" id="roomcode"></div></div>
+    <div><h2>مين يعرف مين؟</h2><div class="code" id="roomcode"></div></div>
     <div class="stack" id="stack" aria-label="اللاعبين"></div>
   </div>
   <div class="main">
@@ -192,19 +192,33 @@ h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;text-wrap:balance}
   };
   var esc = function (s) { return String(s).replace(/[&<>"']/g, function (c) { return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]; }); };
 
+  /* كل سؤال له 4 اختيارات. صاحب الدور بيختار إجابته الحقيقية، والباقي بيخمنوا. */
   var QUESTIONS = [
-    "مين فينا أكتر واحد بيتأخر على أي معاد؟", "مين فينا أكتر واحد هيبقى مليونير؟", "مين فينا أكتر واحد بيحب ينام؟",
-    "مين فينا أكتر واحد بيبوّظ أي سر؟", "مين فينا أكتر واحد هيتوه وهو ماشي بالخريطة؟", "مين فينا أحسن واحد في الطبخ؟",
-    "مين فينا أكتر واحد بيرغي في التليفون؟", "مين فينا أكتر واحد هيعيط في فيلم؟", "مين فينا أكتر واحد بياكل من طبق غيره؟",
-    "مين فينا أكتر واحد هيبقى مشهور؟", "مين فينا أكتر واحد بينسى حط موبايله فين؟", "مين فينا أكتر واحد عنيد؟",
-    "مين فينا أكتر واحد بيضحّك الكل؟", "مين فينا أكتر واحد بيصحى بدري؟", "مين فينا أكتر واحد هيكسب في مسابقة أكل؟",
-    "مين فينا أكتر واحد بيحب السيلفي؟", "مين فينا أكتر واحد بيغيّر رأيه في آخر لحظة؟", "مين فينا أكتر واحد هيعيش لحد ١٠٠ سنة؟",
-    "مين فينا أكتر واحد بيصرف من غير تفكير؟", "مين فينا أكتر واحد بيحب الأكل الحراق؟", "مين فينا أكتر واحد بيسيب الأنوار مفتوحة؟",
-    "مين فينا أكتر واحد هيبقى رئيس شركة؟", "مين فينا أكتر واحد بيقول «ثواني وجاي» وبيتأخر ساعة؟", "مين فينا أكتر واحد بيسمع الأغاني بصوت عالي؟",
-    "مين فينا أكتر واحد هيخاف من صرصار؟", "مين فينا أكتر واحد حافظ نكت؟", "مين فينا أكتر واحد بيتخانق على ريموت التليفزيون؟",
-    "مين فينا أكتر واحد بيحب يدي نصايح؟", "مين فينا أكتر واحد بيشرب شاي؟", "مين فينا أكتر واحد بيسهر لآخر الليل؟",
-    "مين فينا أكتر واحد قلبه طيب؟", "مين فينا أكتر واحد بيقلّد الناس؟", "مين فينا أكتر واحد بيحب الهدايا؟",
-    "مين فينا أكتر واحد بيعمل مقالب في الباقيين؟", "مين فينا أكتر واحد بيحب يرتّب البيت؟", "مين فينا أكتر واحد هيبقى دكتور شاطر؟"
+    ["أكتر أكلة بيحبها؟", ["كشري", "فراخ مشوية", "محشي وممبار", "بيتزا"]],
+    ["بيفضّل يقضي الأجازة فين؟", ["البحر", "الجبل", "البيت", "سفر برا مصر"]],
+    ["أول حاجة بيعملها لما يصحى؟", ["يمسك الموبايل", "يشرب مياه", "شاي أو قهوة", "يرجع ينام"]],
+    ["مشروبه المفضل؟", ["شاي", "قهوة", "عصير قصب", "نسكافيه"]],
+    ["أكتر حاجة بيخاف منها؟", ["الصراصير", "الأماكن العالية", "الضلمة", "الكلاب"]],
+    ["هوايته؟", ["الألعاب", "الرياضة", "القراءة", "مشاهدة مسلسلات"]],
+    ["لو كسب مليون جنيه؟", ["يسافر", "يشتري عربية", "يبني بيت", "يحوّشهم"]],
+    ["رياضته المفضلة؟", ["كورة", "سباحة", "جيم", "مش بيحب الرياضة"]],
+    ["أحسن فصل عنده؟", ["الصيف", "الشتا", "الربيع", "الخريف"]],
+    ["بيسهر لحد امتى؟", ["قبل ١٢", "١ أو ٢ بالليل", "٣ أو ٤", "لحد الفجر"]],
+    ["بيفضّل يتواصل إزاي؟", ["مكالمة", "رسالة", "فويس", "يقابلك"]],
+    ["أكتر تطبيق بيستخدمه؟", ["فيسبوك", "تيك توك", "واتساب", "يوتيوب"]],
+    ["حلوه المفضل؟", ["كنافة", "أم علي", "آيس كريم", "شوكولاتة"]],
+    ["نوع الأفلام اللي بيحبها؟", ["أكشن", "كوميدي", "رعب", "دراما"]],
+    ["بيروح الشغل أو المدرسة إزاي؟", ["عربيته", "ميكروباص", "مترو", "أوبر"]],
+    ["لو هيتعلم حاجة جديدة؟", ["لغة", "عزف", "طبخ", "برمجة"]],
+    ["بيحب ياكل فين؟", ["في البيت", "مطعم", "أكل شارع", "عند ماما"]],
+    ["أحسن وقت في اليوم عنده؟", ["الصبح بدري", "العصر", "المغرب", "الليل"]],
+    ["أسوأ عادة عنده؟", ["بيتأخر", "بينام كتير", "على الموبايل كتير", "بيرغي كتير"]],
+    ["لو عنده يوم أجازة؟", ["ينام", "يخرج", "يلعب", "يزور العيلة"]],
+    ["أحسن مصيف عنده؟", ["الساحل", "شرم", "الأقصر وأسوان", "إسكندرية"]],
+    ["الأكل اللي بيحبه؟", ["حراق", "حلو", "مالح", "عادي"]],
+    ["أحسن جو عنده؟", ["حر", "برد", "مطر", "معتدل"]],
+    ["شخصيته؟", ["منظم", "عشوائي", "عصبي", "هادي"]],
+    ["أحسن هدية عنده؟", ["فلوس", "موبايل", "هدوم", "كتاب"]]
   ];
   var COLORS = ["#FF8A7A", "#FFC53D", "#7BD3B0", "#8FB8FF", "#C9A6FF", "#FF9EC7", "#9ADB7A", "#FFB86B"];
 
@@ -225,10 +239,9 @@ h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;text-wrap:balance}
     return a;
   }
 
-  var showJoin = function () { $("#join").hidden = false; };
+  $("#join").hidden = false;
   $("#name").value = store.get("name") || "";
   var savedCode = store.get("code"); if (savedCode) $("#code").value = savedCode;
-  showJoin();
 
   $("#go").addEventListener("click", function () {
     var name = $("#name").value.trim().slice(0, 14);
@@ -255,14 +268,14 @@ h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;text-wrap:balance}
     $("#roomcode").textContent = "الغرفة: " + code;
 
     var order = shuffled(code);
-    var wins = Number(store.get("w:" + code + uid) || 0), counted = Number(store.get("c:" + code + uid) || 0);
-    var mine = { u: uid, n: name, r: 0, w: wins };
+    var pts = Number(store.get("w:" + code + uid) || 0), counted = Number(store.get("c:" + code + uid) || 0);
+    var mine = { u: uid, n: name, r: 0, w: pts };
     var peers = [], chat = new Map(), myChat = [], tab = "game", unread = 0, queued = false;
 
     function setP(patch) { Object.assign(mine, patch); room.presence(patch).catch(function () {}); queue(); }
     function queue() { if (queued) return; queued = true; setTimeout(function () { queued = false; render(); }, 16); }
     setP({});
-    room.presence({ u: uid, n: name, r: 0, w: wins }).catch(function () {});
+    room.presence({ u: uid, n: name, r: 0, w: pts }).catch(function () {});
 
     function players() {
       var m = new Map();
@@ -273,27 +286,33 @@ h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;text-wrap:balance}
       if (!m.has(uid)) m.set(uid, { presence: {}, updatedAt: 0 });
       return Array.from(m.entries()).map(function (e) {
         var x = Object.assign({}, e[1].presence, e[0] === uid ? mine : {});
-        return { u: e[0], n: String(x.n || "؟"), r: x.r | 0, vt: x.vt, rv: x.rv | 0, w: x.w | 0, me: e[0] === uid };
-      });
+        return { u: e[0], n: String(x.n || "؟"), r: x.r | 0, tg: x.tg, vt: x.vt, rv: x.rv | 0, w: x.w | 0, me: e[0] === uid };
+      }).sort(function (a, b) { return a.u < b.u ? -1 : 1; });
     }
+    function nextTarget(pl, R) { return pl.length ? pl[R % pl.length].u : null; }  /* دور اللاعب بالترتيب */
     function state() {
       var pl = players(), R = 0;
       pl.forEach(function (p) { if (p.r > R) R = p.r; });
+      var tg = null;
+      pl.forEach(function (p) { if (p.r === R && p.tg && tg === null) tg = p.tg; });
+      var target = pl.filter(function (p) { return p.u === tg; })[0] || null;
       var voted = pl.filter(function (p) { return R > 0 && p.vt && p.vt[0] === R; });
+      var tVote = target && target.vt && target.vt[0] === R ? target.vt[1] : null;
       var revealed = R > 0 && (pl.some(function (p) { return p.rv === R; }) || (pl.length >= 2 && voted.length === pl.length));
-      var tally = {}; pl.forEach(function (p) { tally[p.u] = 0; });
-      voted.forEach(function (p) { if (tally[p.vt[1]] !== undefined) tally[p.vt[1]]++; });
-      var max = 0; Object.keys(tally).forEach(function (k) { if (tally[k] > max) max = tally[k]; });
-      return { pl: pl, R: R, voted: voted, revealed: revealed, tally: tally, max: max };
+      var counts = [0, 0, 0, 0];
+      voted.forEach(function (p) { if (p.u !== tg && counts[p.vt[1]] !== undefined) counts[p.vt[1]]++; });
+      return { pl: pl, R: R, tg: tg, target: target, tVote: tVote, voted: voted, revealed: revealed, counts: counts };
     }
     function sync() {
       var s = state();
-      if ((mine.r | 0) < s.R) setP({ r: s.R });
+      if ((mine.r | 0) < s.R) setP({ r: s.R, tg: s.tg });
       if (s.revealed) {
         if (mine.rv !== s.R) setP({ rv: s.R });
         if (counted < s.R) {
           counted = s.R; store.set("c:" + code + uid, String(counted));
-          if (s.max > 0 && s.tally[uid] === s.max) { wins++; store.set("w:" + code + uid, String(wins)); setP({ w: wins }); }
+          if (uid !== s.tg && s.tVote !== null && mine.vt && mine.vt[0] === s.R && mine.vt[1] === s.tVote) {
+            pts++; store.set("w:" + code + uid, String(pts)); setP({ w: pts });
+          }
         }
       }
     }
@@ -318,14 +337,13 @@ h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;text-wrap:balance}
       sync(); queue();
     });
 
-    /* ---------- render ---------- */
     function renderTop(pl) {
       $("#stack").innerHTML = pl.slice(0, 6).map(function (p) { return av(p.u, p.n); }).join("") +
         (pl.length > 6 ? '<span class="badge" style="margin-inline-start:6px">+' + (pl.length - 6) + "</span>" : "");
     }
     function board(pl) {
       var rows = pl.slice().sort(function (a, b) { return b.w - a.w || a.n.localeCompare(b.n); });
-      return '<div class="card"><h3 style="font-size:1.3rem;margin-bottom:10px">الكاسات</h3><div class="board">' +
+      return '<div class="card"><h3 style="font-size:1.3rem;margin-bottom:10px">النقاط</h3><div class="board">' +
         rows.map(function (p) {
           return '<div class="line"><div class="who">' + av(p.u, p.n) + "<b>" + esc(p.n) + (p.me ? " (أنا)" : "") + '</b></div><span class="cups">' + p.w + "</span></div>";
         }).join("") + "</div></div>";
@@ -335,30 +353,39 @@ h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;text-wrap:balance}
       renderTop(pl);
       var h = "";
       if (s.R === 0) {
-        h += '<div class="card"><h3 style="font-size:1.8rem">مستنيين العيلة</h3>' +
-          '<p style="color:var(--muted);margin:6px 0 14px">ابعت الرابط وكود الغرفة <b dir="ltr" style="unicode-bidi:isolate">' + esc(code) + "</b> للباقيين. لما يدخلوا، أي واحد يدوس ابدأ.</p>" +
+        h += '<div class="card"><h3 style="font-size:1.8rem">مستنيين اللاعبين</h3>' +
+          '<p style="color:var(--muted);margin:6px 0 14px">كل واحد بيجاوب أسئلة عن نفسه، والباقي بيخمّنوا إجابته. ابعت الرابط وكود الغرفة <b dir="ltr" style="unicode-bidi:isolate">' + esc(code) + "</b> للباقيين، وأي واحد يدوس ابدأ.</p>" +
           '<div class="grid">' + pl.map(function (p) { return '<div class="pick" style="border-style:dashed">' + av(p.u, p.n) + '<span class="n">' + esc(p.n) + (p.me ? " (أنا)" : "") + "</span></div>"; }).join("") + "</div></div>" +
           '<button class="btn" id="start" type="button"' + (pl.length < 2 ? " disabled" : "") + ">ابدأ اللعبة</button>" +
           (pl.length < 2 ? '<p class="hint" style="margin:0">محتاجين لاعبين اتنين على الأقل.</p>' : "");
       } else {
-        var q = order[(s.R - 1) % order.length];
+        var Q = order[(s.R - 1) % order.length], q = Q[0], opts = Q[1];
+        var iAmTarget = s.tg === uid;
+        var tname = s.target ? s.target.n : null;
         var myVote = mine.vt && mine.vt[0] === s.R ? mine.vt[1] : null;
-        h += '<div class="card q"><small>سؤال ' + s.R + "</small><h3>" + esc(q) + "</h3></div>";
+        var title = iAmTarget ? "الدور عليك! اختار إجابتك الحقيقية" : (tname ? "خمّن: " + esc(tname) : "اللاعب خرج");
+        h += '<div class="card q"><small>سؤال ' + s.R + (tname ? " · " + esc(tname) : "") + "</small><h3>" +
+          (iAmTarget ? "إنت: " : (tname ? esc(tname) + ": " : "")) + esc(q) + "</h3></div>";
         if (!s.revealed) {
-          h += '<div class="grid">' + pl.map(function (p) {
-            return '<button type="button" class="pick" data-vote="' + esc(p.u) + '" aria-pressed="' + (myVote === p.u) + '">' + av(p.u, p.n) +
-              '<span class="n">' + esc(p.n) + (p.me ? " (أنا)" : "") + "</span></button>";
-          }).join("") + "</div>" +
-            '<div class="status"><span>اتصوّت ' + s.voted.length + " من " + pl.length + "</span>" +
-            '<button type="button" class="btn" id="reveal"' + (myVote ? "" : " disabled") + ">اكشف النتيجة</button></div>";
+          if (!s.target) {
+            h += '<div class="status"><span>اللاعب صاحب الدور خرج من اللعبة.</span><button type="button" class="btn" id="next">السؤال الجاي</button></div>';
+          } else {
+            h += '<p class="hint" style="margin:0">' + title + "</p>" +
+              '<div class="grid">' + opts.map(function (o, i) {
+                return '<button type="button" class="pick" data-opt="' + i + '" aria-pressed="' + (myVote === i) + '"><span class="n" style="white-space:normal">' + esc(o) + "</span></button>";
+              }).join("") + "</div>" +
+              '<div class="status"><span>جاوب ' + s.voted.length + " من " + pl.length + "</span>" +
+              '<button type="button" class="btn" id="reveal"' + (myVote !== null ? "" : " disabled") + ">اكشف النتيجة</button></div>";
+          }
         } else {
-          var rows = pl.slice().sort(function (a, b) { return s.tally[b.u] - s.tally[a.u]; });
-          var winners = s.max > 0 ? rows.filter(function (p) { return s.tally[p.u] === s.max; }) : [];
-          h += '<div class="card"><div class="winnerline">' + (winners.length ? "الفايز: " + winners.map(function (p) { return esc(p.n); }).join(" و ") : "محدش اتصوّت له") + "</div>" +
-            '<div class="board" style="margin-top:12px">' + rows.map(function (p) {
-              var pct = s.max ? Math.round(s.tally[p.u] / s.max * 100) : 0;
-              return '<div class="bar' + (s.tally[p.u] === s.max && s.max > 0 ? " win" : "") + '"><div class="who">' + av(p.u, p.n) + "<b>" + esc(p.n) + "</b></div>" +
-                '<div class="track"><div class="fill" style="width:' + pct + '%"></div></div><span class="num">' + s.tally[p.u] + "</span></div>";
+          var tAns = s.tVote !== null ? opts[s.tVote] : null;
+          var right = pl.filter(function (p) { return p.u !== s.tg && p.vt && p.vt[0] === s.R && p.vt[1] === s.tVote; });
+          h += '<div class="card"><div class="winnerline">' + (tAns ? "الإجابة الحقيقية: " + esc(tAns) : "صاحب الدور ما جاوبش") + "</div>" +
+            '<p style="color:var(--muted);margin:6px 0 12px">' + (right.length ? "خمّنوا صح: " + right.map(function (p) { return esc(p.n); }).join("، ") : "محدش خمّن صح") + "</p>" +
+            '<div class="board">' + opts.map(function (o, i) {
+              var mx = Math.max.apply(null, s.counts.concat([1]));
+              var isRight = s.tVote === i;
+              return '<div class="bar' + (isRight ? " win" : "") + '"><div class="who"><b style="max-width:7em">' + esc(o) + '</b></div><div class="track"><div class="fill" style="width:' + Math.round(s.counts[i] / mx * 100) + '%"></div></div><span class="num">' + s.counts[i] + "</span></div>";
             }).join("") + "</div></div>" +
             '<button class="btn" id="next" type="button">السؤال الجاي</button>';
         }
@@ -366,11 +393,11 @@ h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;text-wrap:balance}
       h += board(pl);
       el.innerHTML = h; el.scrollTop = keep;
       var b;
-      if ((b = $("#start"))) b.onclick = function () { setP({ r: 1 }); };
+      if ((b = $("#start"))) b.onclick = function () { setP({ r: 1, tg: nextTarget(pl, 0) }); };
       if ((b = $("#reveal"))) b.onclick = function () { setP({ rv: s.R }); };
-      if ((b = $("#next"))) b.onclick = function () { setP({ r: s.R + 1 }); };
-      el.querySelectorAll("[data-vote]").forEach(function (btn) {
-        btn.onclick = function () { setP({ vt: [s.R, btn.getAttribute("data-vote")] }); };
+      if ((b = $("#next"))) b.onclick = function () { setP({ r: s.R + 1, tg: nextTarget(pl, s.R) }); };
+      el.querySelectorAll("[data-opt]").forEach(function (btn) {
+        btn.onclick = function () { setP({ vt: [s.R, Number(btn.getAttribute("data-opt"))] }); };
       });
       var d = $("#unread"); d.hidden = !unread; d.textContent = unread;
     }
