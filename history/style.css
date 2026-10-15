@@ -1,0 +1,188 @@
+:root {
+  --bg: #0b0b1a;
+  --bg2: #121229;
+  --card: #17172f;
+  --card2: #1e1e3a;
+  --line: #2b2b52;
+  --text: #ecebff;
+  --muted: #a19fc7;
+  --accent: #8b7bff;
+  --accent2: #f5a524;
+  --ok: #34d399;
+  --bad: #f87171;
+  --nav-h: 54px;
+  --radius: 16px;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; min-height: 100vh;
+  background:
+    radial-gradient(900px 500px at 85% -10%, rgba(139, 123, 255, .18), transparent 60%),
+    radial-gradient(700px 500px at 0% 20%, rgba(245, 165, 36, .08), transparent 60%),
+    var(--bg);
+  color: var(--text);
+  font-family: "Cairo", Tahoma, Arial, sans-serif; font-size: 16px; line-height: 1.8;
+}
+a { color: inherit; text-decoration: none; }
+button, input, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+[hidden] { display: none !important; }
+h1, h2, h3 { line-height: 1.4; margin: 0; }
+:focus-visible { outline: 3px solid var(--accent2); outline-offset: 2px; border-radius: 6px; }
+
+/* ---------- الشريط العلوي ---------- */
+.top {
+  position: sticky; top: 0; z-index: 30; height: var(--nav-h);
+  display: flex; align-items: center; gap: 14px; padding: 0 16px;
+  background: rgba(11, 11, 26, .88); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.brand { font-family: "Lalezar", "Cairo", sans-serif; font-size: 22px; color: var(--accent2); white-space: nowrap; }
+#nav { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; flex: 1; }
+#nav::-webkit-scrollbar { display: none; }
+#nav a {
+  white-space: nowrap; padding: 6px 14px; border-radius: 999px; font-size: 14px; font-weight: 600;
+  color: var(--muted); border: 1px solid transparent;
+}
+#nav a:hover { color: var(--text); background: var(--card); }
+#nav a[aria-current="page"] { color: #fff; background: var(--accent); }
+
+main { max-width: 900px; margin: 0 auto; padding: 22px 16px 60px; outline: none; }
+
+/* ---------- الهيرو ---------- */
+.hero {
+  position: relative; overflow: hidden; border-radius: 22px; padding: 30px 22px 24px; margin-bottom: 18px;
+  border: 1px solid var(--line);
+  background:
+    radial-gradient(2px 2px at 12% 30%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 30% 70%, #cfc9ff, transparent),
+    radial-gradient(2px 2px at 55% 20%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 78% 60%, #ffe3a8, transparent),
+    radial-gradient(2px 2px at 90% 25%, #fff, transparent),
+    radial-gradient(1px 1px at 65% 85%, #fff, transparent),
+    linear-gradient(135deg, #1b1550, #2a1260 45%, #4a1d6e);
+}
+.hero h1 { font-family: "Lalezar", "Cairo", sans-serif; font-size: clamp(34px, 8vw, 54px); font-weight: 400; }
+.hero p { margin: 6px 0 0; color: #d8d4ff; max-width: 60ch; }
+.stats { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+.stat { background: rgba(255, 255, 255, .09); border: 1px solid rgba(255, 255, 255, .14); border-radius: 12px; padding: 6px 14px; }
+.stat b { display: block; font-size: 20px; color: var(--accent2); line-height: 1.4; }
+.stat span { font-size: 12px; color: #d8d4ff; }
+
+.page-head { margin-bottom: 18px; }
+.page-head h1 { font-family: "Lalezar", "Cairo", sans-serif; font-size: clamp(28px, 6vw, 40px); font-weight: 400; color: var(--accent2); }
+.page-head p { margin: 4px 0 0; color: var(--muted); max-width: 62ch; }
+
+/* ---------- الأزرار والفلاتر ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  border: 0; border-radius: 12px; padding: 9px 18px; font-weight: 700;
+  background: var(--accent); color: #fff;
+}
+.btn:hover { filter: brightness(1.12); }
+.btn.ghost { background: transparent; border: 1px solid var(--line); color: var(--text); }
+.btn.ghost:hover { border-color: var(--accent); }
+.btn:disabled { opacity: .5; cursor: default; }
+.row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+.controls { position: sticky; top: var(--nav-h); z-index: 20; background: rgba(11, 11, 26, .92); backdrop-filter: blur(8px); padding: 10px 0; margin-bottom: 8px; }
+.search {
+  width: 100%; padding: 10px 16px; border-radius: 999px; background: var(--card); border: 1px solid var(--line); outline: none;
+}
+.search:focus { border-color: var(--accent); }
+.chips { display: flex; gap: 6px; margin-top: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: thin; }
+.chip-btn {
+  flex: none; white-space: nowrap; padding: 4px 12px; border-radius: 999px; font-size: 13px;
+  background: var(--card); border: 1px solid var(--line); color: var(--muted);
+}
+.chip-btn:hover { color: var(--text); }
+.chip-btn[aria-pressed="true"] { background: var(--cc, var(--accent)); border-color: var(--cc, var(--accent)); color: #111; font-weight: 700; }
+.count { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+/* ---------- الخط الزمني ---------- */
+.era { margin-top: 24px; }
+.era-h {
+  position: sticky; top: calc(var(--nav-h) + 96px); z-index: 5; margin: 0 0 10px; padding: 6px 12px;
+  display: flex; align-items: center; gap: 8px; border-radius: 12px; font-size: 18px;
+  background: var(--card2); border: 1px solid var(--line);
+}
+.era-h small { margin-inline-start: auto; color: var(--muted); font-size: 12px; font-weight: 400; }
+.evs { position: relative; }
+.evs::before { content: ""; position: absolute; inset-block: 6px; inset-inline-start: 21px; width: 2px; background: var(--line); }
+.ev { position: relative; display: grid; grid-template-columns: 44px 1fr; gap: 14px; margin-bottom: 14px; scroll-margin-top: 190px; }
+.ev-dot {
+  position: relative; z-index: 1; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font-size: 22px;
+  background: var(--bg2); border: 2px solid var(--c, var(--accent));
+}
+.ev-body { background: var(--card); border: 1px solid var(--line); border-inline-start: 4px solid var(--c, var(--accent)); border-radius: var(--radius); padding: 12px 16px 10px; }
+.ev-when { font-size: 13px; font-weight: 700; color: var(--c, var(--accent2)); }
+.ev-title { font-size: 19px; margin: 2px 0 4px; }
+.ev-text { margin: 0; color: #d3d1ef; font-size: 15px; }
+.ev-meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 8px; }
+.chip { font-size: 12px; padding: 1px 10px; border-radius: 999px; background: var(--card2); border: 1px solid var(--line); color: var(--muted); }
+.chip-eg { color: #ffd88a; border-color: #5b4a1c; }
+.ev-ago { margin-inline-start: auto; font-size: 12px; color: var(--muted); }
+.ev.flash .ev-body { animation: flash 1.8s ease-out; }
+@keyframes flash { 0% { box-shadow: 0 0 0 4px var(--accent2); } 100% { box-shadow: 0 0 0 0 transparent; } }
+.empty { text-align: center; color: var(--muted); padding: 40px 10px; }
+
+/* ---------- السنة الكونية ---------- */
+.callout { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 18px; margin: 12px 0; }
+.callout b { color: var(--accent2); }
+.strip { margin: 22px 0 6px; }
+.strip-bar { position: relative; height: 38px; border-radius: 12px; background: linear-gradient(90deg, #4a1d6e, #2a1a8a, #0c4a6e, #0b6b4f, #7a5b0b, #7a2b0b); border: 1px solid var(--line); }
+.strip-dot { position: absolute; top: 50%; width: 10px; height: 10px; margin: -5px -5px 0 0; border-radius: 50%; background: #fff; box-shadow: 0 0 0 2px var(--bg); }
+[dir="rtl"] .strip-dot { margin: -5px 0 0 -5px; }
+.strip-months { display: flex; margin-top: 4px; font-size: 10px; color: var(--muted); }
+.strip-months span { flex: 1 1 0; text-align: center; border-inline-start: 1px solid var(--line); }
+.cos { display: grid; gap: 8px; margin-top: 16px; }
+.cos-row { display: grid; grid-template-columns: 150px 1fr; gap: 12px; align-items: center; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 8px 14px; }
+.cos-when { font-size: 13px; font-weight: 700; color: var(--accent2); line-height: 1.5; }
+.cos-title { font-weight: 700; }
+.cos-title small { display: block; font-weight: 400; color: var(--muted); font-size: 12px; }
+.cos-bar { grid-column: 1 / -1; height: 4px; border-radius: 99px; background: var(--card2); overflow: hidden; }
+.cos-bar i { display: block; height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 99px; }
+
+/* ---------- النهاردة / قارن / اختبار ---------- */
+.pickers { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 16px; }
+.pickers select, .cmp select {
+  background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; max-width: 100%;
+}
+.near { display: grid; gap: 14px; margin-top: 12px; }
+.delta { font-size: 12px; color: var(--accent2); font-weight: 700; margin-bottom: 4px; }
+
+.cmp { display: grid; gap: 12px; }
+.cmp label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 2px; }
+.cmp select { width: 100%; }
+.cmp-res { background: linear-gradient(135deg, #1b1550, #3a1260); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; margin-top: 4px; }
+.cmp-res .big { font-family: "Lalezar", "Cairo", sans-serif; font-size: clamp(26px, 6vw, 38px); color: var(--accent2); }
+
+.qprog { height: 6px; border-radius: 99px; background: var(--card2); overflow: hidden; margin-bottom: 12px; }
+.qprog i { display: block; height: 100%; background: var(--accent); transition: width .3s; }
+.q { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; }
+.q h2 { font-size: 20px; margin-bottom: 12px; }
+.opt { display: block; width: 100%; text-align: start; margin: 8px 0; padding: 11px 14px; border-radius: 12px; background: var(--card2); border: 1px solid var(--line); }
+.opt:hover:not(:disabled) { border-color: var(--accent); }
+.opt:disabled { cursor: default; }
+.opt.ok { background: rgba(52, 211, 153, .16); border-color: var(--ok); }
+.opt.bad { background: rgba(248, 113, 113, .16); border-color: var(--bad); }
+.explain { margin-top: 12px; padding: 12px 14px; border-radius: 12px; background: var(--bg2); border: 1px dashed var(--line); color: #d3d1ef; font-size: 15px; }
+.score { font-family: "Lalezar", "Cairo", sans-serif; font-size: 64px; color: var(--accent2); line-height: 1.2; }
+
+.foot { max-width: 900px; margin: 0 auto; padding: 0 16px 40px; color: var(--muted); font-size: 12px; }
+.foot p { margin: 4px 0; }
+
+@media (max-width: 560px) {
+  .brand { font-size: 18px; }
+  .cos-row { grid-template-columns: 1fr; gap: 2px; }
+  .ev { grid-template-columns: 34px 1fr; gap: 10px; }
+  .ev-dot { width: 34px; height: 34px; font-size: 17px; }
+  .evs::before { inset-inline-start: 16px; }
+  .era-h { top: calc(var(--nav-h) + 100px); font-size: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .ev.flash .ev-body { animation: none; outline: 3px solid var(--accent2); }
+}

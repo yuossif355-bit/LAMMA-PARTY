@@ -1,0 +1,10 @@
+{
+  "name": "lamma-party-history",
+  "version": "1.0.0",
+  "description": "تاريخ كل حاجة: موقع عربي بيحكي تاريخ الكون والحياة والإنسان والحضارات",
+  "private": true,
+  "scripts": {
+    "test": "node tests/history.test.js",
+    "test:e2e": "python3 tests/e2e.py"
+  }
+}
