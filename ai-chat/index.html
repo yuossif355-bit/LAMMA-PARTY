@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>اسأل لمّة | شات ذكاء اصطناعي بالمصري</title>
+  <meta name="description" content="شات ذكاء اصطناعي بيرد عليك بالعربي والمصري، بيفهم الكود والقوايم، ومحادثاتك بتتحفظ على جهازك بس.">
+  <meta name="theme-color" content="#0d1a1f">
+  <script>
+    /* نحدد الثيم قبل الرسم عشان مفيش وميض */
+    try {
+      var s = JSON.parse(localStorage.getItem("lamma-chat:v1") || "{}");
+      var t = s.theme || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+      document.documentElement.setAttribute("data-theme", t);
+    } catch (e) { document.documentElement.setAttribute("data-theme", "dark"); }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Lalezar&display=swap">
+  <link rel="stylesheet" href="chat.css">
+</head>
+<body>
+  <div class="app" id="app">
+    <div class="scrim" id="scrim" hidden></div>
+
+    <aside class="sidebar" id="sidebar" aria-label="المحادثات">
+      <div class="side-head">
+        <a class="brand" href="../" title="الرجوع لموقع لمّة بارتي">لمّة <span class="brand-star" aria-hidden="true">✦</span> AI</a>
+        <button class="icon-btn only-mobile" id="closeSide" type="button" aria-label="اقفل القايمة">✕</button>
+      </div>
+      <button class="new-chat" id="newChat" type="button">+ محادثة جديدة</button>
+      <nav class="chat-list" id="chatList" aria-label="محادثاتك السابقة"></nav>
+      <p class="side-note">المحادثات محفوظة على جهازك بس. الردود بتيجي من خدمة Puter.</p>
+    </aside>
+
+    <div class="main">
+      <header class="bar">
+        <button class="icon-btn only-mobile" id="openSide" type="button" aria-label="افتح المحادثات">☰</button>
+        <h1 class="chat-title" id="chatTitle">محادثة جديدة</h1>
+        <label class="model-pick">
+          <span class="sr-only">النموذج</span>
+          <select id="model"></select>
+        </label>
+        <button class="icon-btn" id="exportBtn" type="button" title="نزّل المحادثة" aria-label="نزّل المحادثة">⬇</button>
+        <button class="icon-btn" id="themeBtn" type="button" title="غيّر الثيم" aria-label="غيّر الثيم"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"/></svg></button>
+      </header>
+
+      <main class="stage" id="stage" tabindex="-1">
+        <section class="hero" id="hero">
+          <h2 class="hero-title">اسأل أي حاجة.<br>هرد عليك على طول.</h2>
+          <p class="hero-sub">اكتب بالمصري أو بأي لغة، وهرد بنفس لغتك.</p>
+          <div class="starters" id="starters"></div>
+        </section>
+        <div class="thread" id="thread" aria-live="polite"></div>
+      </main>
+      <button class="to-bottom" id="toBottom" type="button" hidden aria-label="انزل لآخر الرد">↓</button>
+
+      <form class="composer" id="composer" autocomplete="off">
+        <div class="field">
+          <label class="sr-only" for="input">رسالتك</label>
+          <textarea id="input" rows="1" maxlength="8000" placeholder="اكتب رسالتك هنا..."></textarea>
+          <button class="send" id="sendBtn" type="submit" aria-label="ابعت">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 19V6M12 6l-5.5 5.5M12 6l5.5 5.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <p class="hint">Enter يبعت، وShift + Enter سطر جديد. الذكاء الاصطناعي ممكن يغلط، راجع المعلومات المهمة.</p>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://js.puter.com/v2/" defer></script>
+  <script src="md.js" defer></script>
+  <script src="app.js" defer></script>
+</body>
+</html>
